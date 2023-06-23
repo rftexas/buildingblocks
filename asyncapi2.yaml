@@ -1,0 +1,51 @@
+asyncapi: 2.6.0
+info:
+  title: Building Block Address
+  version: 1.0.0
+  description: The optional async api for the Address API
+channels:
+  address.added:
+    publish:
+      message:
+        title: New Address
+        summary: A new Address was added
+        name: Order
+        contentType: application/json
+        payload:
+          $ref: '#/components/schemas/Address'
+
+
+  address.changed:
+    publish:
+      message:
+        name: Address
+        contentType: application/json
+        payload:
+          "$ref": "#/components/schemas/Address"
+  address.deleted:
+    publish:
+      message:
+        name: AddressId
+        contentType: application/json
+        payload:
+          type: string
+          format: uuid
+components:
+  schemas:
+    AddressId:
+      type: string
+      format: uuid
+    Address:
+      type: object
+      properties:
+        AddressId:
+          type: string
+          format: uuid
+        Street:
+          type: string
+        City:
+          type: string
+        State:
+          type: string
+        PostalCode:
+          type: string
