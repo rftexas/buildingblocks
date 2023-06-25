@@ -1,0 +1,97 @@
+openapi: 3.1.0
+info:
+  title: Address Api
+  description: Address Api for easy prototyping
+  version: 1.0.0
+paths:
+  /address:
+    get:
+      parameters:
+        - name: take
+          in: query
+          required: false
+          schema: 
+            type: integer
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Address'
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressBody'
+      responses:
+        201: 
+          description: successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressId'
+  /address/{addressId}:
+    parameters:
+      - name: addressId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/AddressId'
+    get: 
+      responses:
+        200:
+          description: gets a specific address by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+        404:
+          description: not found
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressBody'
+      responses:
+        200:
+          description: success
+        404:
+          description: not found
+components:
+  schemas:
+    AddressBody:
+      type: object
+      properties:
+        Street:
+          type: string
+        City:
+          type: string
+        State:
+          type: string
+        PostalCode:
+          type: string
+    AddressId:
+      type: string
+      format: uuid
+    Address:
+      allOf: 
+        - $ref: '#/components/schemas/AddressBody'
+        - type: object
+          properties:
+            AddressId:
+              $ref: '#/components/schemas/AddressId'
+
+
+
+    
